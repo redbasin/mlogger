@@ -251,14 +251,4 @@ public class MLogger {
         }
         return statusCollection.insert(basicDBObject);
     }
-
-    public static void main(String[] args) throws UnknownHostException {
-        try {
-            throw new IllegalArgumentException("Test error", new NumberFormatException("some nasty number error"));
-        } catch (Exception e) {
-            MLogger log = MLogger.getInstance("localhost", "27017");
-            log.setLevel(MLevel.DEBUG);
-            log.debug("feature", "test message", e);
-        }
-    }
 }
