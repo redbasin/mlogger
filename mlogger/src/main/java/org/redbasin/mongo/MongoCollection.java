@@ -12,11 +12,9 @@ import com.mongodb.MongoException;
 import com.mongodb.WriteResult;
 
 /**
- * This is a wrapper around the {@link com.mongodb.DBCollection} class. One goal
- * is to walk the {@link com.mongodb.DBCursor} so as not to require the clients
- * to do that.
+ * A simple wrapper around the minimum methods in mongo.
  *
- * @author redbasin
+ * @author Manoj Joshi
  */
 public class MongoCollection {
 
@@ -77,7 +75,6 @@ public class MongoCollection {
      * @return CommandResult
      */
     public WriteResult insert(DBObject dbObject) {
-        //return coll.insert(dbObject, WriteConcern.majorityWriteConcern(wTimeout, false, false));
         return coll.insert(dbObject);
     }
 

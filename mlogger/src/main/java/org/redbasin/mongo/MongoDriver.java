@@ -160,9 +160,11 @@ public class MongoDriver {
     }
 
     /**
-     * Map of <host, port> tuple for replicaSet connection to the mongo server. This property is preferred
+     * This is the Map of <host, port> tuple. If we want to have the replicaSet 
+     * connection to the mongo server. This property is recommended
      * over using the {@link #setAddrs} as it is mongo independent.
-     * If this property is not set, it is assumed that no replica set connectivity is necessary, as long
+     * If this property is not set, we will assume that no replica set connectivity 
+     * is necessary, as long
      * as the addrs property is also not set.
      * Set this (optional) property from Spring IoC or similar container.
      * Instead of using this property, a dedicated constructor can be used from Spring IoC
@@ -175,7 +177,7 @@ public class MongoDriver {
     }
 
     /**
-     * {@link com.mongodb.ServerAddress} for replicaSet connection to the mongo server. This property is
+     * The server address {@link com.mongodb.ServerAddress} for replicaSet connection to the mongo server. This property is
      * mongo dependent and requires the IoC to be aware of Mongo objects like ServerAddress.
      * If this property is not set, it is
      * assumed that no replica set connectivity is necessary, as long as the addrMap property is also not set.
