@@ -11,32 +11,27 @@ log.debug("feature", "test message", e);
 
 The mongo collection DEBUGfeature will be created with an entry that looks like:
 
-> db.DEBUGfeature.stats()
 {
-	"ns" : "log.DEBUGfeature",
-	"count" : 3,
-	"size" : 1488,
-	"avgObjSize" : 496,
-	"storageSize" : 8192,
-	"numExtents" : 1,
-	"nindexes" : 10,
-	"lastExtentSize" : 8192,
-	"paddingFactor" : 1,
-	"systemFlags" : 1,
-	"userFlags" : 0,
-	"totalIndexSize" : 81760,
-	"indexSizes" : {
-		"_id_" : 8176,
-		"exception.lineNumber_1" : 8176,
-		"exception.className_1" : 8176,
-		"exception.fileName_1" : 8176,
-		"exception.methodName_1" : 8176,
-		"cause.lineNumber_1" : 8176,
-		"cause.className_1" : 8176,
-		"cause.fileName_1" : 8176,
-		"cause.methodName_1" : 8176,
-		"message_1" : 8176
+	"_id" : ObjectId("52aa6e9d300405803b9f7703"),
+	"date" : ISODate("2013-12-13T02:19:09.242Z"),
+	"exception" : {
+		"fileName" : "MLogger.java",
+		"methodName" : "main",
+		"lineNumber" : 253,
+		"className" : "org.redbasin.log.MLogger",
+		"message" : "test message",
+		"exceptionMessage" : "Test error",
+		"exception" : "java.lang.IllegalArgumentException"
 	},
-	"ok" : 1
+	"cause" : {
+		"fileName" : "MLogger.java",
+		"methodName" : "main",
+		"lineNumber" : 253,
+		"className" : "org.redbasin.log.MLogger",
+		"message" : "some nasty number error",
+		"exception" : "java.lang.NumberFormatException"
+	}
 }
+
+The logger will also pickup any additional log4j.properties or similar file and print it to any additional appenders. You can always disable these appenders, if you wish to log only to Mongo. So once you use this logger you do not need to use the log4j or commons-logging logger. This logger takes care of both logging.
 
