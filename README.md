@@ -12,26 +12,47 @@ log.debug("test message", e);
 The mongo collection DEBUGlog will be created with an entry that looks like:
 
 > db.DEBUGlog.find().pretty()
+
 {
+
 	"_id" : ObjectId("52aa7ead30040a83eed00608"),
+	
 	"date" : ISODate("2013-12-13T03:27:41.348Z"),
+	
 	"exception" : {
+	
 		"fileName" : "MLoggerTest.java",
+		
 		"methodName" : "testApp",
+		
 		"lineNumber" : 64,
+		
 		"className" : "org.redbasin.mlogger.MLoggerTest",
+		
 		"message" : "simple test message",
+		
 		"exceptionMessage" : "Test error",
+		
 		"exception" : "java.lang.IllegalArgumentException"
+		
 	},
+	
 	"cause" : {
+	
 		"fileName" : "MLoggerTest.java",
+		
 		"methodName" : "testApp",
+		
 		"lineNumber" : 64,
+		
 		"className" : "org.redbasin.mlogger.MLoggerTest",
+		
 		"message" : "some nasty number error",
+		
 		"exception" : "java.lang.NumberFormatException"
+		
 	}
+	
 }
 
 
