@@ -5,7 +5,7 @@ Mongo Logger
 
 This allows us to log to mongo. By default the mongo db will be "log", but this can be changed. The collection names can also be chosen as suffix. The prefix is the level. This way different log levels go to separate collections. We do have support for mongo multiple shards and also clusters. You could use IoC to inject the params for the mongo connectors if you like. But the simple three lines will work too. Mongo indexes are automatically created, so you can search through these collections really fast.
 
-MLogger log = MLogger.getInstance("localhost", "27017");
+MLogger log = MLogger.getInstance();
 log.debug("test message", e);
 
 The mongo collection DEBUGlog will be created with an entry that looks like:
