@@ -73,6 +73,22 @@ public class MLogger {
     }
     
     /**
+     * Simple message.
+     * 
+     * @param message
+     * @param e
+     * @return WriteResult
+     * @throws UnknownHostException 
+     */
+    public WriteResult debug(String message, Throwable e) throws UnknownHostException {
+        logger.debug(message, e);
+        if (_level.higherThan(MLevel.DEBUG)) {
+           return log(MLevel.DEBUG, MLoggerFields.DEFAULT_COLL.toString(), message, e);
+        }
+        return null;
+    }
+    
+    /**
      * Log a DEBUG level message with exception.
      * 
      * @param coll collection suffix
@@ -90,6 +106,20 @@ public class MLogger {
     }
     
     /**
+     * 
+     * @param message
+     * @return WriteResult
+     * @throws UnknownHostException 
+     */
+    public WriteResult debug(String message) throws UnknownHostException {
+        logger.debug(message);
+        if (_level.higherThan(MLevel.DEBUG)) {
+           return log(MLevel.DEBUG, MLoggerFields.DEFAULT_COLL.toString(), message, null);
+        }
+        return null;
+    }
+    
+    /**
      * Log a DEBUG level message.
      * 
      * @param coll collection suffix
@@ -101,6 +131,21 @@ public class MLogger {
         logger.debug(message);
         if (_level.higherThan(MLevel.DEBUG)) {
            return log(MLevel.DEBUG, coll, message, null);
+        }
+        return null;
+    }
+    
+    /**
+     * 
+     * @param message
+     * @param e
+     * @return WriteResult
+     * @throws UnknownHostException 
+     */
+    public WriteResult warn(String message, Throwable e) throws UnknownHostException {
+        logger.warn(message, e);
+        if (_level.higherThan(MLevel.WARN)) {
+           return log(MLevel.WARN, MLoggerFields.DEFAULT_COLL.toString(), message, e);
         }
         return null;
     }
@@ -123,6 +168,20 @@ public class MLogger {
     }
     
     /**
+     * 
+     * @param message
+     * @return WriteResult
+     * @throws UnknownHostException 
+     */
+    public WriteResult warn(String message) throws UnknownHostException {
+        logger.warn(message);
+        if (_level.higherThan(MLevel.WARN)) {
+           return log(MLevel.WARN, MLoggerFields.DEFAULT_COLL.toString(), message, null);
+        }
+        return null;
+    }
+    
+    /**
      * Log a WARN level message.
      * 
      * @param coll collection suffix
@@ -134,6 +193,21 @@ public class MLogger {
         logger.warn(message);
         if (_level.higherThan(MLevel.WARN)) {
            return log(MLevel.WARN, coll, message, null);
+        }
+        return null;
+    }
+    
+    /**
+     * 
+     * @param message
+     * @param e
+     * @return WriteResult
+     * @throws UnknownHostException 
+     */
+    public WriteResult info(String message, Throwable e) throws UnknownHostException {
+        logger.info(message, e);
+        if (_level.higherThan(MLevel.INFO)) {
+           return log(MLevel.INFO, MLoggerFields.DEFAULT_COLL.toString(), message, e);
         }
         return null;
     }
@@ -156,6 +230,20 @@ public class MLogger {
     }
     
     /**
+     * 
+     * @param message
+     * @return WriteResult
+     * @throws UnknownHostException 
+     */
+    public WriteResult info(String message) throws UnknownHostException {
+        logger.info(message);
+        if (_level.higherThan(MLevel.INFO)) {
+           return log(MLevel.INFO, MLoggerFields.DEFAULT_COLL.toString(), message, null);
+        }
+        return null;
+    }
+    
+    /**
      * Log a INFO level message.
      * 
      * @param coll collection suffix
@@ -172,6 +260,18 @@ public class MLogger {
     }
     
     /**
+     * 
+     * @param message
+     * @param e
+     * @return WriteResult
+     * @throws UnknownHostException 
+     */
+    public WriteResult error(String message, Throwable e) throws UnknownHostException {
+        logger.error(message, e);
+        return log(MLevel.ERROR, MLoggerFields.DEFAULT_COLL.toString(), message, e);
+    }
+    
+    /**
      * Log a ERROR level message with exception.
      * 
      * @param coll collection suffix
@@ -183,6 +283,17 @@ public class MLogger {
     public WriteResult error(String coll, String message, Throwable e) throws UnknownHostException {
         logger.error(message, e);
         return log(MLevel.ERROR, coll, message, e);
+    }
+    
+    /**
+     * 
+     * @param message
+     * @return WriteResult
+     * @throws UnknownHostException 
+     */
+    public WriteResult error(String message) throws UnknownHostException {
+        logger.error(message);
+        return log(MLevel.ERROR, MLoggerFields.DEFAULT_COLL.toString(), message, null);
     }
     
     /**

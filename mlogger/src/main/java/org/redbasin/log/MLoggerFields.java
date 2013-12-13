@@ -16,6 +16,8 @@ import java.util.Map;
 
 public enum MLoggerFields {
     
+    DEFAULT_COLL("log"),
+    
     /**
      * the import date
      */
