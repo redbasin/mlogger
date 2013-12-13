@@ -63,9 +63,11 @@ public class MLoggerTest
         try {
             throw new IllegalArgumentException("Test error", new NumberFormatException("some nasty number error"));
         } catch (Exception e) {
-            MLogger log = MLogger.getInstance("localhost", "27017");
+            MLogger log = MLogger.getInstance("saibaba.local", "27017");
             log.setLevel(MLevel.DEBUG);
             log.debug("feature", "test message", e);
+            
+            log.debug("simple test message", e);
         }
     }
 }
