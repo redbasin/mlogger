@@ -21,35 +21,35 @@ import org.redbasin.mongo.MongoInit;
  *
  * @author Manoj Joshi
  */
-public class MLogger {    
+public class MLogger {
     protected static Log logger = LogFactory.getLog(new Object().getClass());
     private static MLevel _level = MLevel.INFO;
-    
+
     private static MLogger mlogger = null;
     private static String host = MongoInit.DEFAULT_HOST.toString();
-    private static String port = MongoInit.DEFAULT_PORT.toString(); 
-    
+    private static String port = MongoInit.DEFAULT_PORT.toString();
+
     public static void reset() {
-        mlogger = null;    
+        mlogger = null;
     }
-    
+
     private MLogger(String h, String p) {
         host = h;
         port = p;
     }
-    
+
     public static MLogger getInstance() {
-       return getInstance(host, port);    
+       return getInstance(host, port);
     }
-    
+
     public void setHost(String h) {
         host = h;
     }
-    
+
     public void setPort(String p) {
         port = p;
     }
-    
+
     public static MLogger getInstance(String host, String port) {
         if (mlogger != null) {
             return mlogger;
@@ -62,23 +62,23 @@ public class MLogger {
         MongoDriver mongoUtil = MongoDriver.getLogInstance(host, port);
         return mongoUtil.getCollection(coll);
     }
-    
+
     /**
      * Set the logging level.
-     * 
-     * @param level 
+     *
+     * @param level
      */
     public synchronized void setLevel(MLevel level) {
         _level = level;
     }
-    
+
     /**
      * Simple message.
-     * 
+     *
      * @param message
      * @param e
      * @return WriteResult
-     * @throws UnknownHostException 
+     * @throws UnknownHostException
      */
     public WriteResult debug(String message, Throwable e) throws UnknownHostException {
         logger.debug(message, e);
@@ -87,15 +87,15 @@ public class MLogger {
         }
         return null;
     }
-    
+
     /**
      * Log a DEBUG level message with exception.
-     * 
+     *
      * @param coll collection suffix
      * @param message
      * @param e
      * @return
-     * @throws UnknownHostException 
+     * @throws UnknownHostException
      */
     public WriteResult debug(String coll, String message, Throwable e) throws UnknownHostException {
         logger.debug(message, e);
@@ -104,43 +104,43 @@ public class MLogger {
         }
         return null;
     }
-    
+
     /**
-     * 
+     *
      * @param message
      * @return WriteResult
-     * @throws UnknownHostException 
+     * @throws UnknownHostException
      */
     public WriteResult debug(String message) throws UnknownHostException {
         logger.debug(message);
         if (_level.higherThan(MLevel.DEBUG)) {
-           return log(MLevel.DEBUG, MLoggerFields.DEFAULT_COLL.toString(), message, null);
+           return log(MLevel.DEBUG, MLoggerFields.DEFAULT_COLL.toString(), message);
         }
         return null;
     }
-    
+
     /**
      * Log a DEBUG level message.
-     * 
+     *
      * @param coll collection suffix
      * @param message
      * @return
-     * @throws UnknownHostException 
+     * @throws UnknownHostException
      */
     public WriteResult debug(String coll, String message) throws UnknownHostException {
         logger.debug(message);
         if (_level.higherThan(MLevel.DEBUG)) {
-           return log(MLevel.DEBUG, coll, message, null);
+           return log(MLevel.DEBUG, coll, message);
         }
         return null;
     }
-    
+
     /**
-     * 
+     *
      * @param message
      * @param e
      * @return WriteResult
-     * @throws UnknownHostException 
+     * @throws UnknownHostException
      */
     public WriteResult warn(String message, Throwable e) throws UnknownHostException {
         logger.warn(message, e);
@@ -149,15 +149,15 @@ public class MLogger {
         }
         return null;
     }
-    
+
     /**
      * Log a WARN level message with exception.
-     * 
+     *
      * @param coll collection suffix
      * @param message
      * @param e
      * @return
-     * @throws UnknownHostException 
+     * @throws UnknownHostException
      */
     public WriteResult warn(String coll, String message, Throwable e) throws UnknownHostException {
         logger.warn(message, e);
@@ -166,43 +166,43 @@ public class MLogger {
         }
         return null;
     }
-    
+
     /**
-     * 
+     *
      * @param message
      * @return WriteResult
-     * @throws UnknownHostException 
+     * @throws UnknownHostException
      */
     public WriteResult warn(String message) throws UnknownHostException {
         logger.warn(message);
         if (_level.higherThan(MLevel.WARN)) {
-           return log(MLevel.WARN, MLoggerFields.DEFAULT_COLL.toString(), message, null);
+           return log(MLevel.WARN, MLoggerFields.DEFAULT_COLL.toString(), message);
         }
         return null;
     }
-    
+
     /**
      * Log a WARN level message.
-     * 
+     *
      * @param coll collection suffix
      * @param message
      * @return
-     * @throws UnknownHostException 
+     * @throws UnknownHostException
      */
     public WriteResult warn(String coll, String message) throws UnknownHostException {
         logger.warn(message);
         if (_level.higherThan(MLevel.WARN)) {
-           return log(MLevel.WARN, coll, message, null);
+           return log(MLevel.WARN, coll, message);
         }
         return null;
     }
-    
+
     /**
-     * 
+     *
      * @param message
      * @param e
      * @return WriteResult
-     * @throws UnknownHostException 
+     * @throws UnknownHostException
      */
     public WriteResult info(String message, Throwable e) throws UnknownHostException {
         logger.info(message, e);
@@ -211,15 +211,15 @@ public class MLogger {
         }
         return null;
     }
-    
+
     /**
      * Log a INFO level message with exception.
-     * 
+     *
      * @param coll collection suffix
      * @param message
      * @param e
      * @return
-     * @throws UnknownHostException 
+     * @throws UnknownHostException
      */
     public WriteResult info(String coll, String message, Throwable e) throws UnknownHostException {
         logger.info(message, e);
@@ -228,89 +228,89 @@ public class MLogger {
         }
         return null;
     }
-    
+
     /**
-     * 
+     *
      * @param message
      * @return WriteResult
-     * @throws UnknownHostException 
+     * @throws UnknownHostException
      */
     public WriteResult info(String message) throws UnknownHostException {
         logger.info(message);
         if (_level.higherThan(MLevel.INFO)) {
-           return log(MLevel.INFO, MLoggerFields.DEFAULT_COLL.toString(), message, null);
+           return log(MLevel.INFO, MLoggerFields.DEFAULT_COLL.toString(), message);
         }
         return null;
     }
-    
+
     /**
      * Log a INFO level message.
-     * 
+     *
      * @param coll collection suffix
      * @param message
      * @return
-     * @throws UnknownHostException 
+     * @throws UnknownHostException
      */
     public WriteResult info(String coll, String message) throws UnknownHostException {
         logger.info(message);
         if (_level.higherThan(MLevel.INFO)) {
-           return log(MLevel.INFO, coll, message, null);
+           return log(MLevel.INFO, coll, message);
         }
         return null;
     }
-    
+
     /**
-     * 
+     *
      * @param message
      * @param e
      * @return WriteResult
-     * @throws UnknownHostException 
+     * @throws UnknownHostException
      */
     public WriteResult error(String message, Throwable e) throws UnknownHostException {
         logger.error(message, e);
         return log(MLevel.ERROR, MLoggerFields.DEFAULT_COLL.toString(), message, e);
     }
-    
+
     /**
      * Log a ERROR level message with exception.
-     * 
+     *
      * @param coll collection suffix
      * @param message
      * @param e
      * @return
-     * @throws UnknownHostException 
+     * @throws UnknownHostException
      */
     public WriteResult error(String coll, String message, Throwable e) throws UnknownHostException {
         logger.error(message, e);
         return log(MLevel.ERROR, coll, message, e);
     }
-    
+
     /**
-     * 
+     *
      * @param message
      * @return WriteResult
-     * @throws UnknownHostException 
+     * @throws UnknownHostException
      */
     public WriteResult error(String message) throws UnknownHostException {
         logger.error(message);
-        return log(MLevel.ERROR, MLoggerFields.DEFAULT_COLL.toString(), message, null);
+        return log(MLevel.ERROR, MLoggerFields.DEFAULT_COLL.toString(), message);
     }
-    
+
     /**
      * Log a ERROR level message.
-     * 
+     *
      * @param coll collection suffix
      * @param message
      * @return
-     * @throws UnknownHostException 
+     * @throws UnknownHostException
      */
     public WriteResult error(String coll, String message) throws UnknownHostException {
         logger.error(message);
-        return log(MLevel.ERROR, coll, message, null);
+        return log(MLevel.ERROR, coll, message);
     }
-    
+
     private WriteResult log(MLevel level, String coll, String message, Throwable e) throws UnknownHostException {
-        
+
         StackTraceElement[] elements = e.getStackTrace();
         if (e.getCause() != null) {
             StackTraceElement[] causeElements = e.getCause().getStackTrace();
@@ -319,12 +319,12 @@ public class MLogger {
             return log(level, coll, message, elements, null, e);
         }
     }
-    
+
     private WriteResult log(MLevel level, String coll, String message) throws UnknownHostException {
         StackTraceElement[] elements = Thread.currentThread().getStackTrace();
         return log(level, coll, message, elements, null, null);
     }
-    
+
     private WriteResult log(MLevel level, String coll, String message, StackTraceElement[] elements, StackTraceElement[] causeElements, Throwable e) throws UnknownHostException {
         MongoCollection statusCollection = getCollection(level.name() + coll);
         statusCollection.ensureIndex(MLoggerFields.EXCEPTION_LINE_NUMBER, MLoggerFields.LINE_NUMBER, false);
@@ -336,10 +336,10 @@ public class MLogger {
         statusCollection.ensureIndex(MLoggerFields.CAUSE_FILE_NAME, MLoggerFields.FILE_NAME, false);
         statusCollection.ensureIndex(MLoggerFields.CAUSE_METHOD_NAME, MLoggerFields.METHOD_NAME, false);
         statusCollection.ensureIndex(MLoggerFields.MESSAGE, MLoggerFields.CAUSE_MESSAGE, false);
-        
+
         BasicDBObject exceptionDBObject = new BasicDBObject();
         BasicDBObject basicDBObject = new BasicDBObject();
-        basicDBObject.put(MLoggerFields.DATE.toString(), new Date()); 
+        basicDBObject.put(MLoggerFields.DATE.toString(), new Date());
         basicDBObject.put(MLoggerFields.EXCEPTION.toString(), exceptionDBObject);
         exceptionDBObject.put(MLoggerFields.FILE_NAME.toString(), elements[0].getFileName());
         exceptionDBObject.put(MLoggerFields.METHOD_NAME.toString(), elements[0].getMethodName());
