@@ -349,16 +349,19 @@ public class MLogger {
         if (e != null) {
             exceptionDBObject.put(MLoggerFields.EXCEPTION_MESSAGE.toString(), e.getMessage());
         }
-        exceptionDBObject.put(MLoggerFields.EXCEPTION.toString(), e.getClass().getCanonicalName());
-        if (causeElements[0] != null && e.getCause() != null) {
-            BasicDBObject causeDBObject = new BasicDBObject();
-            basicDBObject.put(MLoggerFields.CAUSE.toString(), causeDBObject);
-            causeDBObject.put(MLoggerFields.FILE_NAME.toString(), causeElements[0].getFileName());
-            causeDBObject.put(MLoggerFields.METHOD_NAME.toString(), causeElements[0].getMethodName());
-            causeDBObject.put(MLoggerFields.LINE_NUMBER.toString(), causeElements[0].getLineNumber());
-            causeDBObject.put(MLoggerFields.CLASS_NAME.toString(), causeElements[0].getClassName());
-            causeDBObject.put(MLoggerFields.MESSAGE.toString(), e.getCause().getMessage());
-            causeDBObject.put(MLoggerFields.EXCEPTION.toString(), e.getCause().getClass().getCanonicalName());
+        if (e != null) {
+            exceptionDBObject.put(MLoggerFields.EXCEPTION.toString(), e.getClass().getCanonicalName());
+
+            if (causeElements[0] != null && e.getCause() != null) {
+                BasicDBObject causeDBObject = new BasicDBObject();
+                basicDBObject.put(MLoggerFields.CAUSE.toString(), causeDBObject);
+                causeDBObject.put(MLoggerFields.FILE_NAME.toString(), causeElements[0].getFileName());
+                causeDBObject.put(MLoggerFields.METHOD_NAME.toString(), causeElements[0].getMethodName());
+                causeDBObject.put(MLoggerFields.LINE_NUMBER.toString(), causeElements[0].getLineNumber());
+                causeDBObject.put(MLoggerFields.CLASS_NAME.toString(), causeElements[0].getClassName());
+                causeDBObject.put(MLoggerFields.MESSAGE.toString(), e.getCause().getMessage());
+                causeDBObject.put(MLoggerFields.EXCEPTION.toString(), e.getCause().getClass().getCanonicalName());
+            }
         }
         return statusCollection.insert(basicDBObject);
     }
