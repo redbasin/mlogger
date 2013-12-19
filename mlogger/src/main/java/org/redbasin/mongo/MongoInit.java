@@ -15,13 +15,13 @@ import java.util.Map;
  */
 
 public enum MongoInit {
-    
+
     DEFAULT_HOST("localhost"),
-    
+
     DEFAULT_PORT("27017"),
-    
+
     LOG_MONGO_DB("log");
-    
+
     private final String value;
 
     private static final Map<String, MongoInit> stringToEnum = new HashMap<String, MongoInit>();
