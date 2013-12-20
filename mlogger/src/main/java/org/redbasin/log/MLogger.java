@@ -125,7 +125,8 @@ public class MLogger {
            logger.debug(message);
         }
         if (_level.higherThan(MLevel.DEBUG)) {
-           return log(MLevel.DEBUG, MLoggerFields.DEFAULT_COLL.toString(), message);
+            StackTraceElement[] elements = Thread.currentThread().getStackTrace();
+            return log(MLevel.DEBUG, MLoggerFields.DEFAULT_COLL.toString(), message, elements, null, null);
         }
         return null;
     }
@@ -143,7 +144,8 @@ public class MLogger {
             logger.debug(message);
         }
         if (_level.higherThan(MLevel.DEBUG)) {
-           return log(MLevel.DEBUG, coll, message);
+            StackTraceElement[] elements = Thread.currentThread().getStackTrace();
+            return log(MLevel.DEBUG, coll, message, elements, null, null);
         }
         return null;
     }
@@ -195,7 +197,8 @@ public class MLogger {
            logger.warn(message);
         }
         if (_level.higherThan(MLevel.WARN)) {
-           return log(MLevel.WARN, MLoggerFields.DEFAULT_COLL.toString(), message);
+           StackTraceElement[] elements = Thread.currentThread().getStackTrace();
+           return log(MLevel.WARN, MLoggerFields.DEFAULT_COLL.toString(), message, elements, null, null);
         }
         return null;
     }
@@ -213,7 +216,8 @@ public class MLogger {
            logger.warn(message);
         }
         if (_level.higherThan(MLevel.WARN)) {
-           return log(MLevel.WARN, coll, message);
+            StackTraceElement[] elements = Thread.currentThread().getStackTrace();
+            return log(MLevel.WARN, coll, message, elements, null, null);
         }
         return null;
     }
@@ -265,7 +269,8 @@ public class MLogger {
            logger.info(message);
         }
         if (_level.higherThan(MLevel.INFO)) {
-           return log(MLevel.INFO, MLoggerFields.DEFAULT_COLL.toString(), message);
+            StackTraceElement[] elements = Thread.currentThread().getStackTrace();
+            return log(MLevel.INFO, MLoggerFields.DEFAULT_COLL.toString(), message, elements, null, null);
         }
         return null;
     }
@@ -283,7 +288,8 @@ public class MLogger {
            logger.info(message);
         }
         if (_level.higherThan(MLevel.INFO)) {
-           return log(MLevel.INFO, coll, message);
+            StackTraceElement[] elements = Thread.currentThread().getStackTrace();
+            return log(MLevel.INFO, coll, message, elements, null, null);
         }
         return null;
     }
@@ -328,7 +334,8 @@ public class MLogger {
         if (fileLog) {
             logger.error(message);
         }
-        return log(MLevel.ERROR, MLoggerFields.DEFAULT_COLL.toString(), message);
+        StackTraceElement[] elements = Thread.currentThread().getStackTrace();
+        return log(MLevel.ERROR, MLoggerFields.DEFAULT_COLL.toString(), message, elements, null, null);
     }
 
     /**
@@ -343,7 +350,8 @@ public class MLogger {
         if (fileLog) {
            logger.error(message);
         }
-        return log(MLevel.ERROR, coll, message);
+        StackTraceElement[] elements = Thread.currentThread().getStackTrace();
+        return log(MLevel.ERROR, coll, message, elements, null, null);
     }
 
     private WriteResult log(MLevel level, String coll, String message, Throwable e) throws UnknownHostException {
@@ -357,10 +365,10 @@ public class MLogger {
         }
     }
 
-    private WriteResult log(MLevel level, String coll, String message) throws UnknownHostException {
+    /* private WriteResult log(MLevel level, String coll, String message) throws UnknownHostException {
         StackTraceElement[] elements = Thread.currentThread().getStackTrace();
         return log(level, coll, message, elements, null, null);
-    }
+    } */
 
     private WriteResult log(MLevel level, String coll, String message, StackTraceElement[] elements, StackTraceElement[] causeElements, Throwable e) throws UnknownHostException {
         MongoCollection statusCollection = getCollection(level.name() + coll);
@@ -373,15 +381,18 @@ public class MLogger {
         statusCollection.ensureIndex(MLoggerFields.CAUSE_FILE_NAME, MLoggerFields.FILE_NAME, false);
         statusCollection.ensureIndex(MLoggerFields.CAUSE_METHOD_NAME, MLoggerFields.METHOD_NAME, false);
         statusCollection.ensureIndex(MLoggerFields.MESSAGE, MLoggerFields.CAUSE_MESSAGE, false);
-
+        int offset = 0;
+        if (elements[0].getFileName().equals("Thread.java")) {
+            offset = 1;
+        }
         BasicDBObject exceptionDBObject = new BasicDBObject();
         BasicDBObject basicDBObject = new BasicDBObject();
         basicDBObject.put(MLoggerFields.DATE.toString(), new Date());
         basicDBObject.put(MLoggerFields.EXCEPTION.toString(), exceptionDBObject);
-        exceptionDBObject.put(MLoggerFields.FILE_NAME.toString(), elements[0].getFileName());
-        exceptionDBObject.put(MLoggerFields.METHOD_NAME.toString(), elements[0].getMethodName());
-        exceptionDBObject.put(MLoggerFields.LINE_NUMBER.toString(), elements[0].getLineNumber());
-        exceptionDBObject.put(MLoggerFields.CLASS_NAME.toString(), elements[0].getClassName());
+        exceptionDBObject.put(MLoggerFields.FILE_NAME.toString(), elements[offset].getFileName());
+        exceptionDBObject.put(MLoggerFields.METHOD_NAME.toString(), elements[offset].getMethodName());
+        exceptionDBObject.put(MLoggerFields.LINE_NUMBER.toString(), elements[offset].getLineNumber());
+        exceptionDBObject.put(MLoggerFields.CLASS_NAME.toString(), elements[offset].getClassName());
         exceptionDBObject.put(MLoggerFields.MESSAGE.toString(), message);
         if (e != null) {
             exceptionDBObject.put(MLoggerFields.EXCEPTION_MESSAGE.toString(), e.getMessage());
@@ -392,10 +403,10 @@ public class MLogger {
             if (causeElements[0] != null && e.getCause() != null) {
                 BasicDBObject causeDBObject = new BasicDBObject();
                 basicDBObject.put(MLoggerFields.CAUSE.toString(), causeDBObject);
-                causeDBObject.put(MLoggerFields.FILE_NAME.toString(), causeElements[0].getFileName());
-                causeDBObject.put(MLoggerFields.METHOD_NAME.toString(), causeElements[0].getMethodName());
-                causeDBObject.put(MLoggerFields.LINE_NUMBER.toString(), causeElements[0].getLineNumber());
-                causeDBObject.put(MLoggerFields.CLASS_NAME.toString(), causeElements[0].getClassName());
+                causeDBObject.put(MLoggerFields.FILE_NAME.toString(), causeElements[offset].getFileName());
+                causeDBObject.put(MLoggerFields.METHOD_NAME.toString(), causeElements[offset].getMethodName());
+                causeDBObject.put(MLoggerFields.LINE_NUMBER.toString(), causeElements[offset].getLineNumber());
+                causeDBObject.put(MLoggerFields.CLASS_NAME.toString(), causeElements[offset].getClassName());
                 causeDBObject.put(MLoggerFields.MESSAGE.toString(), e.getCause().getMessage());
                 causeDBObject.put(MLoggerFields.EXCEPTION.toString(), e.getCause().getClass().getCanonicalName());
             }
