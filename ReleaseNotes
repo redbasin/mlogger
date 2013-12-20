@@ -1,0 +1,8 @@
+
+Version: 1.0-SNAPSHOT
+Date: 12/19/2013
+Notes: Created an initial version that logs to Mongo. This includes all relevant source code fields and the stack trace. 
+Log4J can be enabled in the MLogger, but is optional. Indexes are automatically created in Mongo db "log" for 
+all the collections that are created. The name of the collection can be chosen by the user, and starts with the
+level name such as INFOlog, DEBUGlog. The default collection is "log". But user can choose collection name at
+each log statement.
