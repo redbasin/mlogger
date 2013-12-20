@@ -11,7 +11,10 @@ import java.io.StringWriter;
 import org.redbasin.mongo.MongoCollection;
 import org.redbasin.mongo.MongoDriver;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.StringTokenizer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.redbasin.mongo.MongoInit;
@@ -367,10 +370,16 @@ public class MLogger {
         }
     }
 
-    private static String getStackTrace(Throwable e) {
+    private static String[] getStackTrace(Throwable e) {
         StringWriter errors = new StringWriter();
         e.printStackTrace(new PrintWriter(errors));
-        return errors.toString();
+        String err = errors.toString();
+        StringTokenizer st = new StringTokenizer(err, "\n\t");
+        List<String> traceList = new ArrayList();
+        while (st.hasMoreElements()) {
+            traceList.add(st.nextToken());
+        }
+        return traceList.toArray(new String[]{});
     }
 
     /* private WriteResult log(MLevel level, String coll, String message) throws UnknownHostException {
