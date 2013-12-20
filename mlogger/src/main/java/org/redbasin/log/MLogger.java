@@ -6,6 +6,8 @@ package org.redbasin.log;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.WriteResult;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import org.redbasin.mongo.MongoCollection;
 import org.redbasin.mongo.MongoDriver;
 import java.net.UnknownHostException;
@@ -365,6 +367,12 @@ public class MLogger {
         }
     }
 
+    private static String getStackTrace(Throwable e) {
+        StringWriter errors = new StringWriter();
+        e.printStackTrace(new PrintWriter(errors));
+        return errors.toString();
+    }
+
     /* private WriteResult log(MLevel level, String coll, String message) throws UnknownHostException {
         StackTraceElement[] elements = Thread.currentThread().getStackTrace();
         return log(level, coll, message, elements, null, null);
@@ -393,14 +401,16 @@ public class MLogger {
         exceptionDBObject.put(MLoggerFields.METHOD_NAME.toString(), elements[offset].getMethodName());
         exceptionDBObject.put(MLoggerFields.LINE_NUMBER.toString(), elements[offset].getLineNumber());
         exceptionDBObject.put(MLoggerFields.CLASS_NAME.toString(), elements[offset].getClassName());
+
         exceptionDBObject.put(MLoggerFields.MESSAGE.toString(), message);
         if (e != null) {
             exceptionDBObject.put(MLoggerFields.EXCEPTION_MESSAGE.toString(), e.getMessage());
         }
+
         if (e != null) {
             exceptionDBObject.put(MLoggerFields.EXCEPTION.toString(), e.getClass().getCanonicalName());
 
-            if (causeElements[0] != null && e.getCause() != null) {
+            if (causeElements != null && causeElements.length > offset && causeElements[offset] != null && e.getCause() != null) {
                 BasicDBObject causeDBObject = new BasicDBObject();
                 basicDBObject.put(MLoggerFields.CAUSE.toString(), causeDBObject);
                 causeDBObject.put(MLoggerFields.FILE_NAME.toString(), causeElements[offset].getFileName());
@@ -410,6 +420,8 @@ public class MLogger {
                 causeDBObject.put(MLoggerFields.MESSAGE.toString(), e.getCause().getMessage());
                 causeDBObject.put(MLoggerFields.EXCEPTION.toString(), e.getCause().getClass().getCanonicalName());
             }
+
+            basicDBObject.put(MLoggerFields.STACK_TRACE.toString(), getStackTrace(e));
         }
         return statusCollection.insert(basicDBObject);
     }

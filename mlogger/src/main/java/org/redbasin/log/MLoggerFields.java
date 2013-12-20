@@ -15,54 +15,56 @@ import java.util.Map;
  */
 
 public enum MLoggerFields {
-    
+
     DEFAULT_COLL("log"),
-    
+
     /**
      * the import date
      */
     DATE("date"),
-        
+
     MESSAGE("message"),
-    
+
     EXCEPTION_MESSAGE("exceptionMessage"),
-    
+
     LEVEL("level"),
-        
+
     FILE_NAME("fileName"),
-    
+
     CLASS_NAME("className"),
-    
+
     METHOD_NAME("methodName"),
-    
+
     LINE_NUMBER("lineNumber"),
-    
+
+    STACK_TRACE("stackTrace"),
+
     EXCEPTION_FILE_NAME("exception.fileName"),
-    
+
     EXCEPTION_CLASS_NAME("exception.className"),
-    
+
     EXCEPTION_METHOD_NAME("exception.methodName"),
-    
+
     EXCEPTION_LINE_NUMBER("exception.lineNumber"),
-        
+
     EXCEPTION_EXCEPTION("exception.exception"),
-    
+
     CAUSE_FILE_NAME("cause.fileName"),
-    
+
     CAUSE_CLASS_NAME("cause.className"),
-    
+
     CAUSE_METHOD_NAME("cause.methodName"),
-    
+
     CAUSE_LINE_NUMBER("cause.lineNumber"),
-    
+
     CAUSE_MESSAGE("cause.message"),
-    
+
     CAUSE_EXCEPTION("cause.exception"),
-    
+
     EXCEPTION("exception"),
-    
+
     CAUSE("cause");
-    
+
     private final String value;
 
     private static final Map<String, MLoggerFields> stringToEnum = new HashMap<String, MLoggerFields>();
